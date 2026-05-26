@@ -1,0 +1,841 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bank Kids Account — Find your family fit</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Meta / Social -->
+    <meta name="description" content="Bank-backed kids' debit card and financial-literacy app — curriculum-aligned, parental controls, one clear family price.">
+    <meta property="og:title" content="Bank Kids Account — Find your family fit">
+    <meta property="og:description" content="Bank-backed kids' debit card and financial-literacy app — curriculum-aligned, parental controls, one clear family price.">
+    <!-- og:image placeholder (1200x630) -->
+    <!-- <meta property="og:image" content="PATH_TO_OG_IMAGE_1200x630"> -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <style>
+             /* =========================
+        THEME VARIABLES (dark-first x)
+        ========================= */
+             :root {
+                 --bg: #020a18;
+                 --bg-grad: linear-gradient(170deg,#020a18,#041028 40%,#06142e 70%,#020a18);
+                 --surface: rgba(8,24,56,0.85);
+                 --border: rgba(0,170,255,0.12);
+                 --text: #d0e0f0;
+                 --text-bright: #e8f0ff;
+                 --text-dim: #6888aa;
+                 --neon: #00aaff;
+                 --cyan: #00e5ff;
+                 --green: #00ff88;
+                 --amber: #ffaa00;
+                 --content-max: 880px;
+                 --radius: 10px;
+                 --glass: rgba(255,255,255,0.04);
+             }
+
+             /* LIGHT THEME OVERRIDE */
+             html.light {
+                 --bg: #ffffff;
+                 --bg-grad: linear-gradient(170deg,#ffffff,#f7fbff 40%,#f2f7fb 70%,#ffffff);
+                 --surface: rgba(255,255,255,0.95);
+                 --border: rgba(2,40,60,0.06);
+                 --text: #0b1b2b;
+                 --text-bright: #071226;
+                 --text-dim: #5b6f85;
+                 --neon: #0066cc;
+                 --cyan: #00a6d6;
+                 --green: #007a44;
+                 --amber: #b36b00;
+                 --glass: rgba(2,40,60,0.04);
+             }
+
+             /* =========================
+        PREVENT FOUC: apply theme before paint
+        (This style is intentionally minimal)
+        ========================= */
+             html {
+                 background: var(--bg);
+                 color: var(--text);
+             }
+
+             /* =========================
+        BASE LAYOUT
+        ========================= */
+             * {
+                 box-sizing: border-box
+             }
+
+             body {
+                 margin: 0;
+                 font-family: Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+                 font-size: 16px;
+                 line-height: 1.65;
+                 -webkit-font-smoothing: antialiased;
+                 -moz-osx-font-smoothing: grayscale;
+                 background: var(--bg-grad);
+                 color: var(--text);
+                 min-height: 100vh;
+                 position: relative;
+                 overflow-x: hidden;
+             }
+
+                 /* subtle grid overlay (outside content column) */
+                 body::before {
+                     content: "";
+                     position: fixed;
+                     inset: 0;
+                     background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 60px), repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 60px);
+                     opacity: 0.03;
+                     pointer-events: none;
+                     mix-blend-mode: overlay;
+                 }
+
+             /* orbiting orbs (outside content column) */
+             .orb {
+                 position: fixed;
+                 width: 360px;
+                 height: 360px;
+                 border-radius: 50%;
+                 filter: blur(40px) saturate(120%);
+                 opacity: 0.12;
+                 pointer-events: none;
+                 z-index: 0;
+             }
+
+                 .orb.a {
+                     background: radial-gradient(circle at 30% 30%, rgba(0,170,255,0.28), rgba(0,170,255,0.02));
+                     top: -80px;
+                     left: -120px;
+                     animation: orbitA 18s linear infinite;
+                 }
+
+                 .orb.b {
+                     background: radial-gradient(circle at 70% 70%, rgba(0,255,136,0.22), rgba(0,255,136,0.01));
+                     bottom: -100px;
+                     right: -140px;
+                     animation: orbitB 22s linear infinite;
+                 }
+
+             @keyframes orbitA {
+                 0% {
+                     transform: translate(0,0) rotate(0)
+                 }
+
+                 50% {
+                     transform: translate(18px,12px) rotate(180deg)
+                 }
+
+                 100% {
+                     transform: translate(0,0) rotate(360deg)
+                 }
+             }
+
+             @keyframes orbitB {
+                 0% {
+                     transform: translate(0,0) rotate(0)
+                 }
+
+                 50% {
+                     transform: translate(-16px,-10px) rotate(180deg)
+                 }
+
+                 100% {
+                     transform: translate(0,0) rotate(360deg)
+                 }
+             }
+
+             /* =========================
+        HEADER
+        ========================= */
+             .header {
+                 position: sticky;
+                 top: 0;
+                 z-index: 40;
+                 display: flex;
+                 align-items: center;
+                 justify-content: space-between;
+                 padding: 12px 20px;
+                 backdrop-filter: blur(20px);
+                 background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+                 border-bottom: 1px solid var(--border);
+             }
+
+             .brand {
+                 display: flex;
+                 gap: 12px;
+                 align-items: center;
+             }
+
+             .favicon {
+                 width: 36px;
+                 height: 36px;
+                 border-radius: 8px;
+                 display: inline-grid;
+                 place-items: center;
+                 background: linear-gradient(180deg,var(--neon),var(--cyan));
+                 box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+                 font-size: 18px;
+             }
+
+             .title {
+                 font-weight: 600;
+                 font-size: 15px;
+                 color: var(--text-bright);
+             }
+
+             .subtitle {
+                 font-size: 13px;
+                 color: var(--text-dim);
+                 margin-top: 2px
+             }
+
+             /* theme toggle */
+             .controls {
+                 display: flex;
+                 gap: 8px;
+                 align-items: center
+             }
+
+             .theme-btn {
+                 width: 40px;
+                 height: 36px;
+                 border-radius: 8px;
+                 border: 1px solid var(--border);
+                 background: var(--surface);
+                 color: var(--text);
+                 display: inline-grid;
+                 place-items: center;
+                 cursor: pointer;
+             }
+
+                 .theme-btn:focus {
+                     outline: 2px solid var(--neon);
+                     outline-offset: 2px
+                 }
+
+             /* =========================
+        CONTENT CONTAINER
+        ========================= */
+             .container {
+                 max-width: var(--content-max);
+                 margin: 36px auto;
+                 padding: 28px;
+                 position: relative;
+                 z-index: 10;
+             }
+
+             /* hero */
+             .hero {
+                 display: grid;
+                 grid-template-columns: 1fr;
+                 gap: 22px;
+                 align-items: center;
+             }
+
+             .hero-visual {
+                 width: 100%;
+                 height: 50vh;
+                 border-radius: 12px;
+                 overflow: hidden;
+                 background: #111 center/cover no-repeat;
+                 box-shadow: 0 10px 40px rgba(2,8,20,0.6);
+                 border: 1px solid rgba(255,255,255,0.03);
+             }
+
+                 .hero-visual img {
+                     width: 100%;
+                     height: 100%;
+                     object-fit: cover;
+                     object-position: center center;
+                     display: block
+                 }
+
+             /* hero text */
+             .kicker {
+                 display: inline-block;
+                 padding: 6px 10px;
+                 border-radius: 999px;
+                 background: rgba(255,255,255,0.02);
+                 color: var(--text-dim);
+                 font-size: 13px;
+                 margin-bottom: 8px
+             }
+
+             .h1 {
+                 font-size: 28px;
+                 font-weight: 600;
+                 color: var(--text-bright);
+                 margin: 0 0 6px
+             }
+
+             .h2 {
+                 font-size: 16px;
+                 color: var(--text);
+                 margin: 0 0 14px
+             }
+
+             .cta-row {
+                 display: flex;
+                 gap: 12px;
+                 align-items: center
+             }
+
+             .btn {
+                 display: inline-flex;
+                 align-items: center;
+                 gap: 10px;
+                 padding: 10px 16px;
+                 border-radius: 10px;
+                 border: 1px solid transparent;
+                 font-weight: 600;
+                 cursor: pointer;
+                 text-decoration: none;
+             }
+
+                 .btn.primary {
+                     background: linear-gradient(90deg,var(--neon),var(--cyan));
+                     color: #021226;
+                     box-shadow: 0 8px 24px rgba(0,170,255,0.12)
+                 }
+
+                 .btn.ghost {
+                     background: transparent;
+                     border: 1px solid rgba(255,255,255,0.06);
+                     color: var(--text);
+                 }
+
+             /* three reasons */
+             .reasons {
+                 display: grid;
+                 grid-template-columns: repeat(3,1fr);
+                 gap: 14px;
+                 margin-top: 22px
+             }
+
+             .reason {
+                 background: var(--surface);
+                 padding: 16px;
+                 border-radius: 10px;
+                 border: 1px solid var(--border)
+             }
+
+                 .reason h3 {
+                     margin: 0 0 8px;
+                     font-size: 15px;
+                     color: var(--text-bright)
+                 }
+
+                 .reason p {
+                     margin: 0;
+                     color: var(--text-dim);
+                     font-size: 14px
+                 }
+
+             /* sample experience */
+             .sample {
+                 display: flex;
+                 gap: 18px;
+                 align-items: flex-start;
+                 margin-top: 22px
+             }
+
+                 .sample .card {
+                     flex: 1;
+                     background: var(--surface);
+                     padding: 18px;
+                     border-radius: 10px;
+                     border: 1px solid var(--border)
+                 }
+
+                     .sample .card h4 {
+                         margin: 0 0 8px;
+                         color: var(--text-bright)
+                     }
+
+                     .sample .card p {
+                         margin: 0;
+                         color: var(--text-dim)
+                     }
+
+             /* social proof */
+             .social {
+                 display: flex;
+                 gap: 12px;
+                 align-items: center;
+                 margin-top: 18px
+             }
+
+             .testimonial {
+                 background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+                 padding: 12px;
+                 border-radius: 8px;
+                 border: 1px solid var(--border);
+                 color: var(--text-dim);
+                 font-size: 14px
+             }
+
+             .endorse {
+                 font-size: 13px;
+                 color: var(--text-dim);
+                 margin-left: auto
+             }
+
+             /* FAQ */
+             .faq {
+                 margin-top: 22px;
+                 display: grid;
+                 gap: 10px
+             }
+
+             .faq-item {
+                 background: var(--surface);
+                 padding: 14px;
+                 border-radius: 8px;
+                 border: 1px solid var(--border)
+             }
+
+                 .faq-item summary {
+                     font-weight: 600;
+                     cursor: pointer;
+                     color: var(--text-bright)
+                 }
+
+                 .faq-item p {
+                     margin: 8px 0 0;
+                     color: var(--text-dim)
+                 }
+
+             /* qualifier (interactive) */
+             .qualifier {
+                 margin-top: 28px;
+                 background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+                 padding: 18px;
+                 border-radius: 12px;
+                 border: 1px solid var(--border)
+             }
+
+             .q-intro {
+                 font-weight: 600;
+                 color: var(--text-bright);
+                 margin-bottom: 12px
+             }
+
+             .question {
+                 margin-bottom: 14px
+             }
+
+             .q-title {
+                 font-weight: 600;
+                 color: var(--text);
+                 margin-bottom: 8px
+             }
+
+             .choices {
+                 display: flex;
+                 flex-wrap: wrap;
+                 gap: 8px
+             }
+
+             .choice {
+                 padding: 10px 12px;
+                 border-radius: 8px;
+                 background: transparent;
+                 border: 1px solid rgba(255,255,255,0.04);
+                 cursor: pointer;
+                 color: var(--text);
+             }
+
+                 .choice[aria-pressed="true"] {
+                     background: rgba(0,170,255,0.12);
+                     border-color: var(--neon);
+                     color: var(--text-bright)
+                 }
+
+             .controls-row {
+                 display: flex;
+                 gap: 10px;
+                 align-items: center;
+                 margin-top: 12px
+             }
+
+             .small {
+                 font-size: 13px;
+                 color: var(--text-dim)
+             }
+
+             /* result card */
+             .result {
+                 margin-top: 18px;
+                 padding: 16px;
+                 border-radius: 10px;
+                 border: 1px solid var(--border);
+                 background: var(--surface)
+             }
+
+                 .result h3 {
+                     margin: 0 0 8px;
+                     color: var(--text-bright)
+                 }
+
+                 .result p {
+                     margin: 0 0 12px;
+                     color: var(--text-dim)
+                 }
+
+                 .result .result-cta {
+                     display: inline-block;
+                     padding: 10px 14px;
+                     border-radius: 8px;
+                     background: var(--neon);
+                     color: #021226;
+                     font-weight: 700;
+                     text-decoration: none
+                 }
+
+             /* footer */
+             .footer {
+                 margin-top: 40px;
+                 padding: 28px 0;
+                 text-align: center;
+                 color: var(--text-dim);
+                 font-size: 14px
+             }
+
+             /* responsive */
+             @media (max-width:920px) {
+                 .reasons {
+                     grid-template-columns: 1fr
+                 }
+
+                 .sample {
+                     flex-direction: column
+                 }
+
+                 .hero-visual {
+                     height: 40vh
+                 }
+             }
+    </style>
+
+    <!-- Apply saved theme before first paint -->
+    <script>
+(function(){
+  try{
+    const saved = localStorage.getItem('theme');
+    if(saved === 'light') document.documentElement.classList.add('light');
+  }catch(e){}
+})();
+    </script>
+</head>
+<body>
+
+    <!-- decorative orbs -->
+    <div class="orb a" aria-hidden="true"></div>
+    <div class="orb b" aria-hidden="true"></div>
+
+    <header class="header" role="banner">
+        <div class="brand" aria-hidden="false">
+            <div class="favicon" title="Bank kids">💳</div>
+            <div>
+                <div class="title">Bank Kids</div>
+                <div class="subtitle">Curriculum-aligned • Bank-backed • Family-priced</div>
+            </div>
+        </div>
+
+        <div class="controls" role="navigation" aria-label="Site controls">
+            <button id="findBtn" class="btn primary" onclick="document.getElementById('qualifier').scrollIntoView({behavior:'smooth'})">Find your family fit</button>
+            <button id="themeToggle" class="theme-btn" aria-label="Toggle theme" title="Toggle theme">☾</button>
+        </div>
+    </header>
+
+    <main class="container" id="main" role="main">
+
+        <!-- HERO -->
+        <section class="hero" aria-labelledby="hero-heading">
+            <div class="hero-visual" aria-hidden="true">
+                <!-- Put your hero image file named hero.jpg in the same folder as this index.html -->
+                <img src="hero.jpg" alt="" />
+            </div>
+
+            <div>
+                <div class="kicker">Bank-backed</div>
+                <h1 id="hero-heading" class="h1">A safer way for kids to learn money — backed by your bank.</h1>
+                <div class="h2">Curriculum‑aligned lessons, parental controls, and one clear family price.</div>
+
+                <div class="cta-row">
+                    <a class="btn primary" href="#qualifier" onclick="document.getElementById('qualifier').scrollIntoView({behavior:'smooth'})">Find your family fit</a>
+                    <a class="btn ghost" href="mailto:hello@bank.example?subject=Interest%20in%20Kids%20Account">Register interest</a>
+                </div>
+
+                <!-- three reasons -->
+                <div class="reasons" role="list" aria-label="Why this is for you">
+                    <div class="reason" role="listitem">
+                        <h3>Bank trust, school alignment</h3>
+                        <p>Curriculum modules that complement Money Smarts and classroom learning.</p>
+                    </div>
+                    <div class="reason" role="listitem">
+                        <h3>One family price, no surprises</h3>
+                        <p>Transparent family plans that avoid per‑child sticker shock.</p>
+                    </div>
+                    <div class="reason" role="listitem">
+                        <h3>Parental control, real autonomy</h3>
+                        <p>Chore‑linked allowances, savings goals, and teacher‑friendly reporting.</p>
+                    </div>
+                </div>
+
+                <!-- sample experience -->
+                <div class="sample" aria-labelledby="sample-heading">
+                    <div class="card">
+                        <h4 id="sample-heading">Sample experience</h4>
+                        <p><strong>Set a weekly chore for Liam (age 9)</strong>, assign €2 allowance, link a savings goal for a bike, and watch progress on a gamified dashboard — parents approve chores, kids earn badges, and teachers can see classroom progress reports.</p>
+                    </div>
+                    <div class="card">
+                        <h4>How it works</h4>
+                        <p>Parents set rules and approvals; kids get a safe debit card and a learning path that matches their school curriculum.</p>
+                    </div>
+                </div>
+
+                <!-- social proof -->
+                <div class="social" aria-live="polite">
+                    <div class="testimonial">“Parents and family members remain the primary source of financial learning.”</div>
+                    <div class="testimonial">“Plans start at just $5.99/month for the whole family.”</div>
+                    <div class="endorse">Built with school partners and bank safeguards</div>
+                </div>
+
+                <!-- FAQ -->
+                <div class="faq" role="list" aria-label="Frequently asked questions">
+                    <details class="faq-item"><summary>Is my child’s money safe?</summary><p>Yes. Bank custody, EU consumer protections, and parental controls keep funds secure.</p></details>
+                    <details class="faq-item"><summary>How much will this cost for our family?</summary><p>We offer clear family tiers — use the qualifier below to see the best fit for your household.</p></details>
+                    <details class="faq-item"><summary>Will this duplicate school work?</summary><p>No. Modules are curriculum‑aligned to reinforce classroom learning.</p></details>
+                    <details class="faq-item"><summary>What age is this for?</summary><p>Designed for 6–17 with age‑appropriate experiences.</p></details>
+                    <details class="faq-item"><summary>Can I control spending and set chores?</summary><p>Yes — full parental controls, chore automation, and approval flows are included.</p></details>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUALIFIER -->
+        <section id="qualifier" class="qualifier" aria-labelledby="qualifier-heading">
+            <div class="q-intro" id="qualifier-heading">Answer five quick questions to see which plan fits your family</div>
+
+            <form id="qualForm" onsubmit="return false" aria-describedby="qual-instructions">
+                <div id="qual-instructions" class="small">Select one option per question. Results compute instantly.</div>
+
+                <!-- Q1 -->
+                <div class="question" data-q="1" role="group" aria-labelledby="q1-title">
+                    <div id="q1-title" class="q-title">1. How many children will use the account?</div>
+                    <div class="choices" role="radiogroup" aria-label="Number of children">
+                        <button type="button" class="choice" data-points="0" data-qval="1" aria-pressed="false">1 child</button>
+                        <button type="button" class="choice" data-points="1" data-qval="2" aria-pressed="false">2 children</button>
+                        <button type="button" class="choice" data-points="2" data-qval="3-4" aria-pressed="false">3–4 children</button>
+                        <button type="button" class="choice" data-points="3" data-qval="5+" aria-pressed="false">5+ children</button>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="question" data-q="2" role="group" aria-labelledby="q2-title">
+                    <div id="q2-title" class="q-title">2. What are the children’s ages?</div>
+                    <div class="choices" role="radiogroup" aria-label="Children ages">
+                        <button type="button" class="choice" data-points="0" data-qval="6-9" aria-pressed="false">6–9</button>
+                        <button type="button" class="choice" data-points="1" data-qval="10-12" aria-pressed="false">10–12</button>
+                        <button type="button" class="choice" data-points="2" data-qval="13-15" aria-pressed="false">13–15</button>
+                        <button type="button" class="choice" data-points="2" data-qval="16-17" aria-pressed="false">16–17</button>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="question" data-q="3" role="group" aria-labelledby="q3-title">
+                    <div id="q3-title" class="q-title">3. How important is school integration and curriculum alignment?</div>
+                    <div class="choices" role="radiogroup" aria-label="School integration importance">
+                        <button type="button" class="choice" data-points="2" data-qval="essential" aria-pressed="false">Essential</button>
+                        <button type="button" class="choice" data-points="1" data-qval="nice" aria-pressed="false">Nice to have</button>
+                        <button type="button" class="choice" data-points="0" data-qval="not" aria-pressed="false">Not important</button>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="question" data-q="4" role="group" aria-labelledby="q4-title">
+                    <div id="q4-title" class="q-title">4. Do you want investing or advanced financial tools for teens?</div>
+                    <div class="choices" role="radiogroup" aria-label="Investing for teens">
+                        <button type="button" class="choice" data-points="2" data-qval="yes" aria-pressed="false">Yes, for older teens</button>
+                        <button type="button" class="choice" data-points="1" data-qval="maybe" aria-pressed="false">Maybe later</button>
+                        <button type="button" class="choice" data-points="0" data-qval="no" aria-pressed="false">No, basic only</button>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="question" data-q="5" role="group" aria-labelledby="q5-title">
+                    <div id="q5-title" class="q-title">5. What matters most when choosing a kids’ account?</div>
+                    <div class="choices" role="radiogroup" aria-label="What matters most">
+                        <button type="button" class="choice" data-points="0" data-qval="cost" aria-pressed="false">Lowest monthly cost</button>
+                        <button type="button" class="choice" data-points="2" data-qval="controls" aria-pressed="false">Best parental controls & reporting</button>
+                        <button type="button" class="choice" data-points="2" data-qval="learning" aria-pressed="false">Best learning content & school partnership</button>
+                        <button type="button" class="choice" data-points="2" data-qval="teen" aria-pressed="false">Teen features (cards, investing)</button>
+                    </div>
+                </div>
+
+                <div class="controls-row">
+                    <button id="calcBtn" class="btn primary" type="button">See my result</button>
+                    <button id="resetBtn" class="btn ghost" type="button">Reset</button>
+                    <div class="small" style="margin-left:auto">Accessible, keyboard navigable qualifier</div>
+                </div>
+
+                <div id="result" class="result" role="status" aria-live="polite" hidden>
+                    <!-- result content injected by JS -->
+                </div>
+            </form>
+        </section>
+
+        <div class="footer">
+            <div>Dan Kelly • Bank Kids • Built with curriculum partners</div>
+            <div style="margin-top:8px;font-size:13px;color:var(--text-dim)">This page was built with AI assistance; the source is public at [URL]; no analytics or trackers run.</div>
+        </div>
+    </main>
+
+    <script>
+/* =========================
+   THEME TOGGLE (persisted)
+   Apply saved preference before paint (handled in head)
+   ========================= */
+(function(){
+  const btn = document.getElementById('themeToggle');
+  function setLabel(){
+    const isLight = document.documentElement.classList.contains('light');
+    btn.textContent = isLight ? '☀' : '☾';
+    btn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+  }
+  btn.addEventListener('click', () => {
+    const isLight = document.documentElement.classList.toggle('light');
+    try{ localStorage.setItem('theme', isLight ? 'light' : 'dark'); }catch(e){}
+    setLabel();
+  });
+  setLabel();
+})();
+
+/* =========================
+   QUALIFIER: selection, scoring, results
+   Accessible: keyboard support, aria-pressed toggles
+   ========================= */
+(function(){
+  const form = document.getElementById('qualForm');
+  const resultEl = document.getElementById('result');
+  const calcBtn = document.getElementById('calcBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  // store selections by question index (1..5)
+  const selections = {1:null,2:null,3:null,4:null,5:null};
+
+  // attach handlers to choice buttons
+  form.querySelectorAll('.choice').forEach(btn=>{
+    btn.addEventListener('click', ()=> selectChoice(btn));
+    btn.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectChoice(btn); }
+    });
+  });
+
+  function selectChoice(btn){
+    const parent = btn.closest('.question');
+    const qIndex = parent.getAttribute('data-q');
+    // unpress siblings
+    parent.querySelectorAll('.choice').forEach(c=>{
+      c.setAttribute('aria-pressed','false');
+    });
+    btn.setAttribute('aria-pressed','true');
+    selections[qIndex] = parseInt(btn.getAttribute('data-points'),10) || 0;
+  }
+
+  function computeScore(){
+    let total = 0;
+    for(let i=1;i<=5;i++){
+      const v = selections[i];
+      if(v === null) return null; // incomplete
+      total += v;
+    }
+    return total;
+  }
+
+  function renderResult(total){
+    resultEl.hidden = false;
+    resultEl.innerHTML = '';
+    let tier = '';
+    let html = '';
+    if(total <= 2){
+      tier = 'Starter';
+      html += '<h3>Starter — Simple, safe, and low cost.</h3>';
+      html += '<p>Perfect for one younger child. Parental controls, chore allowances, and a gamified savings dashboard — all at our entry family price.</p>';
+      html += '<a class="result-cta" href="mailto:hello@bank.example?subject=Starter%20trial">Start Starter — 30-day free trial</a>';
+    } else if(total <= 6){
+      tier = 'Family';
+      html += '<h3>Family — Curriculum-aligned, family-priced.</h3>';
+      html += '<p>Designed for households with multiple children. School modules, family dashboards, and per-child goals with one transparent family fee.</p>';
+      html += '<a class="result-cta" href="mailto:hello@bank.example?subject=Family%20pricing">Choose Family — See pricing</a>';
+    } else {
+      tier = 'Partner';
+      html += '<h3>Partner — For teens and school partners.</h3>';
+      html += '<p>Full parental controls plus teen features: cards, optional investing, and teacher reporting for classroom integration.</p>';
+      html += '<a class="result-cta" href="mailto:hello@bank.example?subject=Partner%20contact">Contact a specialist</a>';
+    }
+    // include brief rationale
+    html += '<div style="margin-top:12px;color:var(--text-dim);font-size:13px">Your score: <strong>'+total+'</strong> — recommended tier: <strong>'+tier+'</strong></div>';
+    resultEl.innerHTML = html;
+    resultEl.focus();
+  }
+
+  calcBtn.addEventListener('click', ()=>{
+    const total = computeScore();
+    if(total === null){
+      // find first unanswered
+      let first = 1;
+      for(let i=1;i<=5;i++){ if(selections[i] === null){ first = i; break; } }
+      const q = form.querySelector('.question[data-q="'+first+'"]');
+      q.scrollIntoView({behavior:'smooth', block:'center'});
+      q.querySelector('.choice').focus();
+      // announce
+      resultEl.hidden = false;
+      resultEl.innerHTML = '<div style="color:var(--amber)">Please answer all five questions to see your result.</div>';
+      return;
+    }
+    renderResult(total);
+  });
+
+  resetBtn.addEventListener('click', ()=>{
+    // clear selections
+    for(let i=1;i<=5;i++){ selections[i]=null; }
+    form.querySelectorAll('.choice').forEach(c=>c.setAttribute('aria-pressed','false'));
+    resultEl.hidden = true;
+    resultEl.innerHTML = '';
+    form.querySelector('.question').scrollIntoView({behavior:'smooth'});
+  });
+
+  // keyboard: allow arrow navigation between choices within a question
+  form.querySelectorAll('.choices').forEach(group=>{
+    group.addEventListener('keydown', (e)=>{
+      const items = Array.from(group.querySelectorAll('.choice'));
+      const idx = items.indexOf(document.activeElement);
+      if(idx === -1) return;
+      if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){ e.preventDefault(); const next = items[(idx+1)%items.length]; next.focus(); }
+      if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){ e.preventDefault(); const prev = items[(idx-1+items.length)%items.length]; prev.focus(); }
+    });
+  });
+
+  // expose for debugging (optional)
+  window._qual = { selections, computeScore };
+})();
+
+/* =========================
+   Small accessibility helpers
+   ========================= */
+(function(){
+  // ensure focus outline visible for keyboard users
+  function handleFirstTab(e){
+    if(e.key === 'Tab') document.documentElement.classList.add('user-is-tabbing');
+  }
+  window.addEventListener('keydown', handleFirstTab, {once:true});
+})();
+    </script>
+
+</body>
+</html>
